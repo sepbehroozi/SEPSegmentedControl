@@ -1,6 +1,6 @@
 {
   "name": "sepsegmentedcontrol",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React native SegmentedControlIOS alternative with font support and android compatible",
   "main": "SEPSegmentedControl.js",
   "scripts": {
