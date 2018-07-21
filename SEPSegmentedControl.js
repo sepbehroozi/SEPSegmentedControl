@@ -6,9 +6,10 @@
 import React, {Component} from 'react'
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import PropTypes from 'prop-types'
+import {Colors} from './Config/Colors'
 
 
-export default class SEPSegmentedControl extends Component {
+class SEPSegmentedControl extends Component {
   constructor() {
     super()
     this.state = {
@@ -18,13 +19,14 @@ export default class SEPSegmentedControl extends Component {
 
   renderItems = () => {
     const {
-      items,
       onItemChange = (index: number) => {
       },
       isReverse,
-      tintColor = '#123',
+      tintColor = Colors.darkBlue,
       style = {},
     } = this.props
+
+    const items = this.props.children
     const {fontFamily = 'System'} = style
     let result = []
 
@@ -33,13 +35,16 @@ export default class SEPSegmentedControl extends Component {
       const isSelected = this.state.selectedItemIndex === i
       const indexThatShouldNotHaveRightBorder = isReverse ? 0 : items.length - 1
 
+      const title = item.props.children
+      const itemStyle = item.props.style === undefined ? {} : item.props.style
+      const itemTintColor = item.props.tintColor === undefined ? tintColor : item.props.tintColor
       result.push(
         <TouchableOpacity
           key={i}
           style={[styles.touchableStyle, {
-            backgroundColor: isSelected ? tintColor : '#00000000',
+            backgroundColor: isSelected ? itemTintColor : Colors.transparent,
             flex: 1 / items.length, borderRightWidth: i === indexThatShouldNotHaveRightBorder ? 0 : 1,
-            borderRightColor: tintColor
+            borderRightColor: itemTintColor
           }]}
           onPress={() => {
             onItemChange(i)
@@ -47,22 +52,22 @@ export default class SEPSegmentedControl extends Component {
               selectedItemIndex: i,
             })
           }}>
-          <Text style={{
-            color: isSelected ? '#FFF' : tintColor,
+          <Text style={[{
+            color: isSelected ? Colors.white : itemTintColor,
             fontFamily: fontFamily,
             paddingVertical: 4,
             textAlign: 'center',
-          }}>{item}</Text>
+          }, itemStyle]}>{title}</Text>
         </TouchableOpacity>
       )
     }
     return result
-  };
+  }
 
   render() {
     const {
       isReverse = false,
-      tintColor = '#123',
+      tintColor = Colors.darkBlue,
       style
     } = this.props
 
@@ -73,6 +78,9 @@ export default class SEPSegmentedControl extends Component {
       </View>
     )
   }
+}
+
+export default class SegmentedControlItem extends Component {
 }
 
 
@@ -99,8 +107,18 @@ SEPSegmentedControl.propTypes = {
 
 SEPSegmentedControl.defaultProps = {
   isReverse: false,
-  tintColor: '#123',
+  tintColor: Colors.darkBlue,
   style: {},
   items: [],
-  onItemChange: (index: number) => {},
+  onItemChange: (index: number) => {
+  },
 }
+
+SegmentedControlItem.propTypes = {
+  style: PropTypes.object,
+  tintColor: PropTypes.string,
+}
+
+export {SEPSegmentedControl}
+export let Item = SegmentedControlItem
+
