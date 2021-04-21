@@ -14,8 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "prop-types": "^15.6.0",
-    "react": "16.3.1",
-    "react-native": "^0.62.2",
+    "react": "^16.14.0",
+    "react-native": ">=0.48.4",
     "ws": "^7.1.2"
   },
   "peerDependencies": {
